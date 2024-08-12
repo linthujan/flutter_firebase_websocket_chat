@@ -8,6 +8,12 @@ class TextMessage extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Text(message.text!);
+    return Text(
+      message.text!,
+      style: const TextStyle(
+        fontSize: 15,
+        fontWeight: FontWeight.w500,
+      ),
+    );
   }
 }

@@ -8,6 +8,8 @@ enum MessageType {
 }
 
 enum MessageStatus {
+  pending,
+  failed,
   sent,
   delivered,
   read,
