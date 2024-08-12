@@ -1,5 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_firebase_websocket_chat/components/Chat.dart';
 import 'package:flutter_firebase_websocket_chat/models/ChatModel.dart';
 
 class ChatPage extends StatefulWidget {
