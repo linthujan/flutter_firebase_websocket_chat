@@ -1,11 +1,11 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_firebase_websocket_chat/models/ChatItemModel.dart';
+import 'package:flutter_firebase_websocket_chat/models/ChatModel.dart';
 
-class ChatItem extends StatelessWidget {
-  final ChatItemModel chat;
+class Chat extends StatelessWidget {
+  final ChatModel chat;
   final VoidCallback onTap;
 
-  ChatItem({required this.chat, required this.onTap});
+  Chat({required this.chat, required this.onTap});
 
   @override
   Widget build(BuildContext context) {
@@ -13,9 +13,8 @@ class ChatItem extends StatelessWidget {
       onTap: onTap,
       leading: Stack(
         children: [
-          const CircleAvatar(
-            backgroundImage: NetworkImage(
-                "https://www.strasys.uk/wp-content/uploads/2022/02/Depositphotos_484354208_S.jpg"),
+          CircleAvatar(
+            backgroundImage: NetworkImage(chat.imageUrl),
           ),
           if (chat.unread != 0)
             Positioned(
