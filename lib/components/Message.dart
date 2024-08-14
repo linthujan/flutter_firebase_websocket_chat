@@ -44,15 +44,8 @@ class Message extends StatelessWidget {
               ),
               child: Container(
                 constraints: BoxConstraints(
-                    maxWidth: MediaQuery.of(context).size.width * 0.7),
-                child: Text(
-                  message.text!,
-                  textAlign: TextAlign.justify,
-                  style: const TextStyle(
-                    fontSize: 15,
-                    fontWeight: FontWeight.w500,
-                  ),
-                ),
+                    maxWidth: MediaQuery.of(context).size.width * 0.6),
+                child: buildContent(message),
               ),
             ),
             Row(

@@ -8,6 +8,26 @@ class ImageMessage extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Text(message.imageUrl!);
+    return Column(
+      children: [
+        Image.network(
+          message.imageUrl!,
+          // width: MediaQuery.of(context).size.width * 0.4,
+        ),
+        Container(
+          decoration: BoxDecoration(color: Color.fromARGB(0, 41, 41, 255)),
+          constraints:
+              BoxConstraints(minWidth: MediaQuery.of(context).size.width),
+          child: Text(
+            message.text!,
+            textAlign: TextAlign.justify,
+            style: const TextStyle(
+              fontSize: 15,
+              fontWeight: FontWeight.w500,
+            ),
+          ),
+        ),
+      ],
+    );
   }
 }

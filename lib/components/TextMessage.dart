@@ -10,6 +10,7 @@ class TextMessage extends StatelessWidget {
   Widget build(BuildContext context) {
     return Text(
       message.text!,
+      textAlign: TextAlign.justify,
       style: const TextStyle(
         fontSize: 15,
         fontWeight: FontWeight.w500,

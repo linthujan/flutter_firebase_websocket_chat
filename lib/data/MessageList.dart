@@ -37,7 +37,9 @@ List<MessageModel> messageList = [
   ),
   MessageModel(
     text: "Dolhlis kuhsgd fluhgsdf lshdisdjkf asgjhf asidfg aksujhg dasdfadf ",
-    type: MessageType.text,
+    type: MessageType.image,
+    imageUrl:
+        "https://www.strasys.uk/wp-content/uploads/2022/02/Depositphotos_484354208_S.jpg",
     status: MessageStatus.sent,
     time: "10.30 AM",
     user: UserModel(userId: '0001', username: "Linthu", lastSeen: "10.35 AM"),
@@ -45,11 +47,13 @@ List<MessageModel> messageList = [
   ),
   MessageModel(
     text: "asdfasd ",
-    type: MessageType.text,
+    type: MessageType.image,
+    imageUrl:
+        "https://www.strasys.uk/wp-content/uploads/2022/02/Depositphotos_484354208_S.jpg",
     status: MessageStatus.failed,
     time: "10.30 AM",
     user: UserModel(userId: '0001', username: "Linthu", lastSeen: "10.35 AM"),
-    isSender: true,
+    isSender: false,
   ),
   MessageModel(
     text: "gfdsgfg ",
