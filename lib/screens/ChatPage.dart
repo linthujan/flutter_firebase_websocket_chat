@@ -1,6 +1,5 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_firebase_websocket_chat/components/Message.dart';
-import 'package:flutter_firebase_websocket_chat/data/MessageList.dart';
 import 'package:flutter_firebase_websocket_chat/models/ChatModel.dart';
 import 'package:flutter_firebase_websocket_chat/models/MessageModel.dart';
 
@@ -20,7 +19,7 @@ class _ChatPageState extends State<ChatPage> {
   void initState() {
     super.initState();
     // messages = widget.chat;
-    messages = messageList;
+    // messages = messageList;
   }
 
   @override
@@ -31,7 +30,7 @@ class _ChatPageState extends State<ChatPage> {
         title: Row(
           children: [
             CircleAvatar(
-              backgroundImage: NetworkImage(widget.chat.imageUrl),
+              backgroundImage: NetworkImage(widget.chat.image),
             ),
             const SizedBox(width: 20 * 0.75),
             Column(
@@ -74,11 +73,9 @@ class _ChatPageState extends State<ChatPage> {
             child: ListView.builder(
                 itemCount: messages.length,
                 itemBuilder: (context, index) {
-                  return Container(
-                    child: Message(
-                      message: messages[index],
-                      onTap: () {},
-                    ),
+                  return Message(
+                    message: messages[index],
+                    onTap: () {},
                   );
                 }),
           ),

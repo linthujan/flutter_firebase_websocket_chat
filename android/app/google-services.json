@@ -1,0 +1,29 @@
+{
+  "project_info": {
+    "project_number": "130589907840",
+    "project_id": "flutterfirebasewebsocketchat",
+    "storage_bucket": "flutterfirebasewebsocketchat.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:130589907840:android:ed112feddd9bee36fbff65",
+        "android_client_info": {
+          "package_name": "com.example.flutter_firebase_websocket_chat"
+        }
+      },
+      "oauth_client": [],
+      "api_key": [
+        {
+          "current_key": "AIzaSyBYUO3geNXWkvvtMJaLVlQTySQSdqxK4Oo"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": []
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

@@ -1,10 +1,9 @@
-import 'dart:ffi';
 
 import 'package:flutter_firebase_websocket_chat/models/UserModel.dart';
 
 enum MessageType {
-  text,
-  image,
+  TEXT,
+  IMAGE,
 }
 
 enum MessageStatus {

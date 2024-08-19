@@ -1,3 +1,5 @@
+import 'dart:convert';
+
 import 'package:flutter/material.dart';
 import 'package:flutter_firebase_websocket_chat/models/ChatModel.dart';
 
@@ -14,7 +16,7 @@ class Chat extends StatelessWidget {
       leading: Stack(
         children: [
           CircleAvatar(
-            backgroundImage: NetworkImage(chat.imageUrl),
+            backgroundImage: MemoryImage(base64Decode(chat.image)),
           ),
           if (chat.unread != 0)
             Positioned(

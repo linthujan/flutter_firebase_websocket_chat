@@ -1,7 +1,12 @@
+import 'dart:convert';
+
 import 'package:flutter/material.dart';
+import 'package:flutter_firebase_websocket_chat/helper/common.dart';
+import 'package:flutter_firebase_websocket_chat/models/HttpModel.dart';
+import 'package:flutter_firebase_websocket_chat/screens/ChatListPage.dart';
 import 'package:flutter_firebase_websocket_chat/screens/LoginPage.dart';
-import 'package:flutter_firebase_websocket_chat/screens/SignUpPage.dart';
-import 'package:http/http.dart' as http;
+import 'package:flutter_firebase_websocket_chat/services/api.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 
 class SignUpPage extends StatefulWidget {
   @override
@@ -9,11 +14,31 @@ class SignUpPage extends StatefulWidget {
 }
 
 class _SignUpPageState extends State<SignUpPage> {
-  final _mobileNumberContoller = TextEditingController();
+  final _mobileContoller = TextEditingController();
+  final _usernameContoller = TextEditingController();
 
-  Future<void> _signIn() async {
-    final mobileNumber = _mobileNumberContoller.text;
-    // final response = await http.post(Uri.parse(""))
+  Future<void> _signUp() async {
+    print("signUp");
+
+    final mobile = _mobileContoller.text;
+    final username = _usernameContoller.text;
+    HttpResponseModel? data;
+    try {
+      data = await signUp(mobile, username);
+    } on Exception catch (e) {
+      print("error : $e");
+      showSnackBar(e.toString(), context);
+      return;
+    }
+    showSnackBar(data!.meta.message, context);
+    print("data : ${jsonEncode(data.data)}");
+    final prefs = await SharedPreferences.getInstance();
+
+    await prefs.setString('user', jsonEncode(data.data?['user']));
+    await prefs.setString('token', jsonEncode(data.data?['token']));
+
+    await Navigator.push(
+        context, MaterialPageRoute(builder: (context) => ChatListPage()));
   }
 
   @override
@@ -52,12 +77,14 @@ class _SignUpPageState extends State<SignUpPage> {
                 ],
               )),
           TextFormField(
+            controller: _usernameContoller,
             decoration: const InputDecoration(labelText: "Enter Username"),
-            style: TextStyle(fontSize: 24, letterSpacing: 2),
+            style: const TextStyle(fontSize: 24, letterSpacing: 2),
           ),
           TextFormField(
-            decoration: const InputDecoration(labelText: "Enter Mobile Number"),
-            style: TextStyle(fontSize: 24, letterSpacing: 2),
+            controller: _mobileContoller,
+            decoration: const InputDecoration(labelText: "Enter Mobile"),
+            style: const TextStyle(fontSize: 24, letterSpacing: 2),
           ),
           Padding(
             padding: const EdgeInsets.all(16.0),
@@ -68,18 +95,18 @@ class _SignUpPageState extends State<SignUpPage> {
                   style: const ButtonStyle(
                       backgroundColor:
                           WidgetStatePropertyAll(Colors.deepPurple)),
+                  onPressed: _signUp,
                   child: const Padding(
-                    padding: const EdgeInsets.all(8.0),
+                    padding: EdgeInsets.all(8.0),
                     child: Text(
                       "SignUp",
                       style: TextStyle(fontSize: 16, color: Colors.white),
                     ),
                   ),
-                  onPressed: () => {},
                 ),
                 ElevatedButton(
                   child: const Padding(
-                    padding: const EdgeInsets.all(8.0),
+                    padding: EdgeInsets.all(8.0),
                     child: Text(
                       "SignIn",
                       style: TextStyle(fontSize: 16),

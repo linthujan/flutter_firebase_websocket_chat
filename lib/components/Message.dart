@@ -13,9 +13,9 @@ class Message extends StatelessWidget {
   Widget build(BuildContext context) {
     Widget buildContent(MessageModel message) {
       switch (message.type) {
-        case MessageType.text:
+        case MessageType.TEXT:
           return TextMessage(message);
-        case MessageType.image:
+        case MessageType.IMAGE:
           return ImageMessage(message);
       }
     }

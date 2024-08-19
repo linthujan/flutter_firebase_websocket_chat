@@ -1,7 +1,12 @@
+import 'dart:convert';
+
 import 'package:flutter/material.dart';
+import 'package:flutter_firebase_websocket_chat/helper/common.dart';
+import 'package:flutter_firebase_websocket_chat/models/HttpModel.dart';
 import 'package:flutter_firebase_websocket_chat/screens/ChatListPage.dart';
 import 'package:flutter_firebase_websocket_chat/screens/SignUpPage.dart';
-import 'package:http/http.dart' as http;
+import 'package:flutter_firebase_websocket_chat/services/api.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 
 class LoginPage extends StatefulWidget {
   @override
@@ -9,11 +14,29 @@ class LoginPage extends StatefulWidget {
 }
 
 class _LoginPageState extends State<LoginPage> {
-  final _mobileNumberContoller = TextEditingController();
+  final _mobileContoller = TextEditingController();
 
   Future<void> _login() async {
-    final mobileNumber = _mobileNumberContoller.text;
-    // final response = await http.post(Uri.parse(""))
+    print("login");
+
+    final mobile = _mobileContoller.text;
+    HttpResponseModel? data;
+    try {
+      data = await login(mobile);
+    } on Exception catch (e) {
+      print("error : ${e}");
+      showSnackBar(e.toString(), context);
+      return;
+    }
+    showSnackBar(data!.meta.message, context);
+    print("data : ${jsonEncode(data.data)}");
+    final prefs = await SharedPreferences.getInstance();
+
+    await prefs.setString('user', jsonEncode(data.data?['user']));
+    await prefs.setString('token', jsonEncode(data.data?['token']));
+
+    await Navigator.push(
+        context, MaterialPageRoute(builder: (context) => ChatListPage()));
   }
 
   @override
@@ -52,8 +75,9 @@ class _LoginPageState extends State<LoginPage> {
                 ],
               )),
           TextFormField(
+            controller: _mobileContoller,
             decoration: const InputDecoration(labelText: "Enter Mobile Number"),
-            style: TextStyle(fontSize: 24, letterSpacing: 2),
+            style: const TextStyle(fontSize: 24, letterSpacing: 2),
           ),
           Padding(
             padding: const EdgeInsets.all(16.0),
@@ -64,21 +88,18 @@ class _LoginPageState extends State<LoginPage> {
                   style: const ButtonStyle(
                       backgroundColor:
                           WidgetStatePropertyAll(Colors.deepPurple)),
+                  onPressed: _login,
                   child: const Padding(
-                    padding: const EdgeInsets.all(8.0),
+                    padding: EdgeInsets.all(8.0),
                     child: Text(
                       "SignIn",
                       style: TextStyle(fontSize: 16, color: Colors.white),
                     ),
                   ),
-                  onPressed: () => {
-                    Navigator.pushReplacement(context,
-                        MaterialPageRoute(builder: (context) => ChatListPage()))
-                  },
                 ),
                 ElevatedButton(
                   child: const Padding(
-                    padding: const EdgeInsets.all(8.0),
+                    padding: EdgeInsets.all(8.0),
                     child: Text(
                       "SignUp",
                       style: TextStyle(fontSize: 16),
