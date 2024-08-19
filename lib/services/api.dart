@@ -3,9 +3,10 @@ import 'package:flutter_firebase_websocket_chat/intercepters/InterceptedClient.d
 import 'package:flutter_firebase_websocket_chat/models/HttpModel.dart';
 import 'package:http/http.dart' as http;
 
+const String baseurl = "https://tough-terminally-koala.ngrok-free.app/api";
+
 Future<HttpResponseModel?> signUp(String mobile, String username) async {
-  final response = await http.post(
-      Uri.parse('https://tough-terminally-koala.ngrok-free.app/api/user'),
+  final response = await http.post(Uri.parse('$baseurl/user'),
       headers: <String, String>{
         'Content-Type': 'application/json; charset=UTF-8'
       },
@@ -20,13 +21,12 @@ Future<HttpResponseModel?> signUp(String mobile, String username) async {
   } else if (data.error?['isAppError'] == true) {
     throw Exception(data.meta.message);
   } else {
-    throw Exception("SignUp Failed");
+    throw Exception("SignUp failed");
   }
 }
 
 Future<HttpResponseModel?> login(String mobile) async {
-  final response = await http.post(
-      Uri.parse('https://tough-terminally-koala.ngrok-free.app/api/auth/login'),
+  final response = await http.post(Uri.parse('$baseurl/auth/login'),
       headers: <String, String>{
         'Content-Type': 'application/json; charset=UTF-8'
       },
@@ -40,13 +40,13 @@ Future<HttpResponseModel?> login(String mobile) async {
   } else if (data.error?['isAppError'] == true) {
     throw Exception(data.meta.message);
   } else {
-    throw Exception("Login Failed");
+    throw Exception("Login failed");
   }
 }
 
 Future<HttpResponseModel?> getChats() async {
   final response = await client.get(
-    Uri.parse('https://tough-terminally-koala.ngrok-free.app/api/chat'),
+    Uri.parse('$baseurl/chat'),
     headers: <String, String>{
       'Content-Type': 'application/json; charset=UTF-8'
     },
@@ -58,15 +58,13 @@ Future<HttpResponseModel?> getChats() async {
   } else if (data.error?['isAppError'] == true) {
     throw Exception(data.meta.message);
   } else {
-    throw Exception("Get chats Failed");
+    throw Exception("Get chats failed");
   }
 }
 
 Future<http.Response> registerToken(
     String fcmToken, String manufacturer, String model, String androidId) {
-  return http.post(
-      Uri.parse(
-          'https://tough-terminally-koala.ngrok-free.app/api/firebase/messaging/register'),
+  return client.post(Uri.parse('$baseurl/firebase/messaging/register'),
       headers: <String, String>{
         'Content-Type': 'application/json; charset=UTF-8'
       },
@@ -76,7 +74,7 @@ Future<http.Response> registerToken(
         'fcm_token': fcmToken,
         'device_unique_id': androidId,
         'device_unique_id_type': 'androidId',
-        'platform': 'WEB',
+        'platform': 'ANDROID',
         'app_version': '1.0'
       }));
 }

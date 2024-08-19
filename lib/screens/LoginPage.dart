@@ -6,6 +6,7 @@ import 'package:flutter_firebase_websocket_chat/models/HttpModel.dart';
 import 'package:flutter_firebase_websocket_chat/screens/ChatListPage.dart';
 import 'package:flutter_firebase_websocket_chat/screens/SignUpPage.dart';
 import 'package:flutter_firebase_websocket_chat/services/api.dart';
+import 'package:flutter_firebase_websocket_chat/services/firebase.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
 class LoginPage extends StatefulWidget {
@@ -24,7 +25,7 @@ class _LoginPageState extends State<LoginPage> {
     try {
       data = await login(mobile);
     } on Exception catch (e) {
-      print("error : ${e}");
+      print("error : $e");
       showSnackBar(e.toString(), context);
       return;
     }
@@ -35,6 +36,7 @@ class _LoginPageState extends State<LoginPage> {
     await prefs.setString('user', jsonEncode(data.data?['user']));
     await prefs.setString('token', jsonEncode(data.data?['token']));
 
+    await CloudMessaging().init();
     await Navigator.push(
         context, MaterialPageRoute(builder: (context) => ChatListPage()));
   }
